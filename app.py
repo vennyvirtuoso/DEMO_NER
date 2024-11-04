@@ -78,7 +78,9 @@ def word_features_test(sentence, i):
 
 
 def tokenize_sentence(sentence):
-    return word_tokenize(sentence)
+    # return NISTTokenizer.tokenize(sentence)
+    # return word_tokenize(sentence)
+    return sentence.split() 
 
 
 def predict_ner_tags(sentence):
