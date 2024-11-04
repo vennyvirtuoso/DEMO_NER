@@ -4,3 +4,4 @@ streamlit
 scikit-learn
 requests
 nltk
+python-dotenv
