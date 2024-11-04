@@ -103,12 +103,12 @@ def gpt4_ner(raw_text):
     }
     # Create the few-shot prompt with examples
     few_shot_prompt = f"""
-    your task is to do NEI(named entity identification), your output will be compared to SVM trained on the dataset CoNLL-2003 dataset.you have been provided with few shot examples, your output should be in the same format as given in the examples. There are only two labels to be assigned to the entities in the  input text, '1' if it's a named entity or '0' if it's not a named entity. Also consider the '.' at the end of the sentence to be tagged as '0'
-    Input- Raw Text: Delhi is the capital of India
-    Output- NEI markings: Delhi_1 is_0 the_0 capital_0 of_0 India_1
+    your task is to do NEI(named entity identification), your output will be compared to SVM trained on the dataset CoNLL-2003 dataset.you have been provided with few shot examples, your output should be in the same format as given in the examples. There are only two labels to be assigned to the entities in the  input text, '1' if it's a named entity or '0' if it's not a named entity. Also consider the '.' at the end of the sentence to be tagged as '0' and give the right whitespace.
+    Input- Raw Text: Delhi is the capital of India.
+    Output- NEI markings: Delhi_1 is_0 the_0 capital_0 of_0 India_1 ._0
     
-    Input- Raw Text: Washington DC is the capital of the United States of America
-    Output- NEI markings: Washington_1 DC_1 is_0 the_0 capital_0 of_0 United_1 States_1 of_1 America_1
+    Input- Raw Text: Washington DC is the capital of the United States of America.
+    Output- NEI markings: Washington_1 DC_1 is_0 the_0 capital_0 of_0 United_1 States_1 of_1 America_1 ._0
     
     Input- Raw Text: {raw_text}
     Output- NEI markings:
