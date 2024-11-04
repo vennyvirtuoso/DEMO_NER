@@ -137,7 +137,7 @@ def gpt4_ner(raw_text):
 
 # Streamlit UI
 st.title("Named Entity Identification Demo")
-st.write("Enter raw text for Named Entity Identification")
+# st.write("Enter raw text for Named Entity Identification")
 
 raw_text = st.text_area("Input Raw Text", value="", height=50)
 
