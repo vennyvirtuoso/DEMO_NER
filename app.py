@@ -14,7 +14,13 @@ import random
 load_dotenv()
 # Check if 'punkt' is downloaded; if not, download it
 
-nltk.download('punkt_tab')
+def download_nltk_data():
+    # Check if 'punkt_tab' is already downloaded
+    if not os.path.exists(os.path.join(nltk.data.find('tokenizers'), 'punkt_tab')):
+        nltk.download('punkt_tab')
+
+# Call the download function
+download_nltk_data()
 
 # Now you can safely use nltk.word_tokenize or other functions requiring 'punkt'
 from nltk.tokenize import word_tokenize
