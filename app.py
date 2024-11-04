@@ -9,23 +9,30 @@ import nltk
 from nltk.data import find
 import os
 from dotenv import load_dotenv
-
+import random
 # Load environment variables from .env file
 load_dotenv()
 # Check if 'punkt' is downloaded; if not, download it
-@st.cache_data
-def ensure_nltk_resources():
-    try:
-        find('tokenizers/punkt')
-    except LookupError:
-        nltk.download('punkt')
 
-ensure_nltk_resources()
+nltk.download('punkt_tab')
 
 # Now you can safely use nltk.word_tokenize or other functions requiring 'punkt'
 from nltk.tokenize import word_tokenize
 from nltk.tree import Tree
 
+# Define suffixes
+noun_suffix = ["action", "age", "ance", "cy", "dom", "ee", "ence", "er",
+               "hood", "ion", "ism", "ist", "ity", "ling", "ment", "ness",
+               "or", "ry", "scape", "ship", "ty"]
+verb_suffix = ["ate", "ify", "ise", "ize", "ed", "ing"]
+adj_suffix = ["able", "ese", "ful", "i", "ian", "ible", "ic", "ish",
+              "ive", "less", "ous"]
+adv_suffix = ["ward", "wards", "wise", "ly"]
+punct = set(string.punctuation)
+# Set random seed for reproducibility
+seed_value = 42
+random.seed(seed_value)
+np.random.seed(seed_value)
 
 def word_features_test(sentence, i):
     word = sentence[i]
@@ -71,9 +78,9 @@ def tokenize_sentence(sentence):
 def predict_ner_tags(sentence):
     # Load the saved components
     vectorizer = DictVectorizer(sparse=True)
-    with open('./param/dict_vectorizer_unk_final2.pkl', 'rb') as vec_file:
+    with open('./params/dict_vectorizer_unk_final2.pkl', 'rb') as vec_file:
         vectorizer = pickle.load(vec_file)
-    with open('./param/best_ner_model_unk_final2.pkl', 'rb') as f:
+    with open('./params/best_ner_model_unk_final2.pkl', 'rb') as f:
         model = pickle.load(f)
         
     sentence = vectorizer.transform(sentence)
@@ -97,7 +104,7 @@ def gpt4_ner(raw_text):
     Input- Raw Text: Washington DC is the capital of the United States of America
     Output- NEI markings: Washington_1 DC_1 is_0 the_0 capital_0 of_0 United_1 States_1 of_1 America_1
     
-    Input- Raw Text: '{raw_text}';
+    Input- Raw Text: {raw_text}
     Output- NEI markings:
     """
     
@@ -126,7 +133,7 @@ def gpt4_ner(raw_text):
 st.title("Named Entity Identification Demo")
 st.write("Enter raw text for Named Entity Identification")
 
-raw_text = st.text_area("Input Raw Text", value="", height=150)
+raw_text = st.text_area("Input Raw Text", value="", height=50)
 
 if st.button("Run"):
     if raw_text:
