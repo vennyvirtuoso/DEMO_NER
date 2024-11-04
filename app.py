@@ -13,10 +13,14 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 # Check if 'punkt' is downloaded; if not, download it
-try:
-    find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
+@st.cache_data
+def ensure_nltk_resources():
+    try:
+        find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+
+ensure_nltk_resources()
 
 # Now you can safely use nltk.word_tokenize or other functions requiring 'punkt'
 from nltk.tokenize import word_tokenize
