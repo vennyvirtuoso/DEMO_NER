@@ -10,19 +10,19 @@ from nltk.data import find
 import os
 from dotenv import load_dotenv
 import random
-# Load environment variables from .env file
+
 load_dotenv()
-# Check if 'punkt' is downloaded; if not, download it
+
 
 def download_nltk_data():
     # Check if 'punkt_tab' is already downloaded
     if not os.path.exists(os.path.join(nltk.data.find('tokenizers'), 'punkt_tab')):
         nltk.download('punkt_tab')
 
-# Call the download function
+
 download_nltk_data()
 
-# Now you can safely use nltk.word_tokenize or other functions requiring 'punkt'
+
 from nltk.tokenize import word_tokenize
 from nltk.tree import Tree
 
@@ -103,7 +103,7 @@ def gpt4_ner(raw_text):
     }
     # Create the few-shot prompt with examples
     few_shot_prompt = f"""
-    your task is to do NEI(named entity identification), your output will be compared to SVM trained on the dataset CoNLL-2003 dataset.you have been provided with few shot examples, your output should be in the same format as given in the examples. There are only two labels to be assigned to the entities in the  input text, '1' if it's a named entity or '0' if it's not a named entity. If there is '.' at the end of raw text don't consider it
+    your task is to do NEI(named entity identification), your output will be compared to SVM trained on the dataset CoNLL-2003 dataset.you have been provided with few shot examples, your output should be in the same format as given in the examples. There are only two labels to be assigned to the entities in the  input text, '1' if it's a named entity or '0' if it's not a named entity. Also consider the '.' at the end of the sentence to be tagged as '0'
     Input- Raw Text: Delhi is the capital of India
     Output- NEI markings: Delhi_1 is_0 the_0 capital_0 of_0 India_1
     
@@ -137,7 +137,7 @@ def gpt4_ner(raw_text):
 
 # Streamlit UI
 st.title("Named Entity Identification Demo")
-# st.write("Enter raw text for Named Entity Identification")
+
 
 raw_text = st.text_area("Input Raw Text", value="", height=50)
 
